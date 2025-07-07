@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Vid from "./assets/AdobeStock_641335422_Video_HD_Preview.mov";
 
 const App = () => {
   const [score, setScore] = useState(0);
@@ -31,7 +32,7 @@ const App = () => {
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
-        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=16");
+        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=21");
         const data = await res.json();
 
         const pokemonDetails = await Promise.all(
@@ -74,8 +75,18 @@ const App = () => {
         </div>
       </div>
 
-      <div className="w-full p-4">
-        <div className="flex flex-wrap gap-4 justify-center">
+      <div className="w-full p-4 relative">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        >
+          <source src={Vid} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="flex flex-wrap gap-4 justify-center z-20 relative">
           {shuffledPokemons.map((pokemon) => (
             <div
               key={pokemon.id}
@@ -90,7 +101,7 @@ const App = () => {
                   setClicks((prev) => [...prev, pokemon.name]);
                 }
               }}
-              className="border rounded-lg shadow p-4 w-[150px] text-center bg-white text-black transition-transform duration-300 hover:scale-110"
+              className="border rounded-lg shadow p-4 w-[170px] text-center bg-white text-black transition-transform duration-300 hover:scale-110"
             >
               <h3 className="capitalize text-lg font-semibold mb-2">
                 {pokemon.name}
@@ -108,10 +119,6 @@ const App = () => {
           ))}
         </div>
       </div>
-      <footer className="text-center text-gray-400 py-4 border-t border-gray-700 mt-6 text-sm">
-        © {new Date().getFullYear()}{" "}
-        <span className="text-white font-semibold"></span> — Built by Basit
-      </footer>
     </div>
   );
 };

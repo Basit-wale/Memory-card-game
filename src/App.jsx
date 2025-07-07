@@ -66,7 +66,7 @@ const App = () => {
               more than once!
             </p>
           </div>
-          <p className="text-xl text-red-600 font-orbitron">{message}</p>
+          <p className="text-lg text-red-600 font-orbitron">{message}</p>
         </div>
         <div className="flex flex-col text-lg font-semibold">
           <p>Score: {score}</p>

@@ -2,17 +2,30 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [score, setScore] = useState(0);
-  // const [clicks, setClicks] = useState([]);
+  const [clicks, setClicks] = useState([]);
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Fisher-Yates shuffle (safe & doesn't mutate state directly)
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const shuffledPokemons = shuffleArray(pokemons);
+
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
-        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
+        const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=16");
         const data = await res.json();
 
-        // Now fetch detailed info for each Pokémon
         const pokemonDetails = await Promise.all(
           data.results.map(async (pokemon) => {
             const res = await fetch(pokemon.url);
@@ -31,54 +44,52 @@ const App = () => {
     fetchPokemons();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return <p className="text-white text-center mt-10">Loading...</p>;
 
   return (
-    <div className="h-fit w-full bg-gray-600">
-      <div className="flex justify-between h-20 shadow-md px-4 items-center">
-        <div>
-          <p className="font-semibold text-2xl">InDO Games</p>
-        </div>
-
+    <div className="h-[100vh] w-full bg-gray-600 text-white">
+      <div className="flex justify-between h-20 shadow-md px-4 items-center bg-gray-800">
+        <p className="font-semibold text-2xl">InDO Games</p>
+        <p className="font-semibold text-2xl text-red-700">{message}</p>
         <div className="flex flex-col text-sm font-semibold">
           <p>Score: {score}</p>
-          <p>Best score: </p>
-          {/* {clicks.map((click, idx) => (
-            <p key={idx}>{click}</p>
-          ))} */}
+          <p>Best score: {/* You can add this later */}</p>
         </div>
       </div>
-      <div className="w-full p-4">
-        <div className="w-full">
-          <div className={`flex flex-wrap gap-4`}>
-            {pokemons.map((pokemon) => (
-              <div
-                className="border rounded-lg shadow p-4 w-[150px] text-center transition-transform duration-300 hover:scale-110"
-                key={pokemon.id}
-                onClick={() => {
-                  setScore(score + 1);
-                  // setClicks((prev) =>
-                  //   prev.includes(pokemon.name) ? prev : [...prev, pokemon.name]
-                  // );
-                  // setPokemons()
-                }}
-              >
-                <h3 className="capitalize text-lg font-semibold mb-2">
-                  {pokemon.name}
-                </h3>
-                <img
-                  src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}
-                  alt={pokemon.name}
-                  className="w-[120px] h-[120px] object-contain mx-auto"
-                />
 
-                <p className="text-sm">
-                  <span className="font-medium">Type:</span>{" "}
-                  {pokemon.types.map((type) => type.type.name).join(", ")}
-                </p>
-              </div>
-            ))}
-          </div>
+      <div className="w-full p-4">
+        <div className="flex flex-wrap gap-4 justify-center">
+          {shuffledPokemons.map((pokemon) => (
+            <div
+              key={pokemon.id}
+              onClick={() => {
+                if (clicks.includes(pokemon.name)) {
+                  setScore(0);
+                  setClicks([]); // Reset if already clicked
+                  setMessage("You lost! Try again.");
+                  setTimeout(() => setMessage(""), 2000); // Clear message after 2
+                } else {
+                  setScore((prev) => prev + 1);
+                  setClicks((prev) => [...prev, pokemon.name]);
+                }
+              }}
+              className="border rounded-lg shadow p-4 w-[150px] text-center bg-white text-black transition-transform duration-300 hover:scale-110"
+            >
+              <h3 className="capitalize text-lg font-semibold mb-2">
+                {pokemon.name}
+              </h3>
+              <img
+                src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}
+                alt={pokemon.name}
+                className="w-[120px] h-[120px] object-contain mx-auto"
+              />
+              <p className="text-sm">
+                <span className="font-medium">Type:</span>{" "}
+                {pokemon.types.map((type) => type.type.name).join(", ")}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

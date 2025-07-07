@@ -110,8 +110,7 @@ const App = () => {
       </div>
       <footer className="text-center text-gray-400 py-4 border-t border-gray-700 mt-6 text-sm">
         © {new Date().getFullYear()}{" "}
-        <span className="text-white font-semibold"></span> — Built with 💙 by
-        Basit
+        <span className="text-white font-semibold"></span> — Built by Basit
       </footer>
     </div>
   );

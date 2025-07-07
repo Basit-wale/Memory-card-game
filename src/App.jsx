@@ -56,11 +56,19 @@ const App = () => {
     return <p className="text-white text-center mt-10">Loading...</p>;
 
   return (
-    <div className="h-fit w-full bg-gray-600 text-white">
+    <div className="h-fit w-full bg-gray-600 text-slate-100">
       <div className="flex justify-between h-20 shadow-md px-4 items-center bg-gray-800">
-        <p className="font-semibold text-2xl">Card Picker</p>
-        <p className="font-semibold text-2xl text-red-700">{message}</p>
-        <div className="flex flex-col text-sm font-semibold">
+        <div className="flex gap-5">
+          <div className="flex flex-col">
+            <p className="font-semibold text-3xl">Pokémon Memory Game</p>
+            <p className="text-base text-slate-200">
+              Get points by clicking on an image, but don't click the same one
+              more than once!
+            </p>
+          </div>
+          <p className="text-xl text-red-600 font-orbitron">{message}</p>
+        </div>
+        <div className="flex flex-col text-lg font-semibold">
           <p>Score: {score}</p>
           <p>Best score: {bestScore}</p>
         </div>

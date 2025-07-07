@@ -101,7 +101,7 @@ const App = () => {
                   setClicks((prev) => [...prev, pokemon.name]);
                 }
               }}
-              className="border rounded-lg shadow p-4 w-[170px] text-center bg-white text-black transition-transform duration-300 hover:scale-110"
+              className="border rounded-lg shadow-lg p-4 w-[170px] text-center bg-white text-black transition-transform duration-300 hover:scale-110"
             >
               <h3 className="capitalize text-lg font-semibold mb-2">
                 {pokemon.name}

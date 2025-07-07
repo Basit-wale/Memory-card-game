@@ -19,6 +19,14 @@ const App = () => {
   const shuffledPokemons = shuffleArray(pokemons);
 
   const [message, setMessage] = useState("");
+  const [bestScore, setBestScore] = useState(0);
+
+  useEffect(() => {
+    if (score > bestScore) {
+      setBestScore(score);
+      localStorage.setItem("bestScore", score.toString());
+    }
+  }, [score, bestScore]);
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -48,13 +56,13 @@ const App = () => {
     return <p className="text-white text-center mt-10">Loading...</p>;
 
   return (
-    <div className="h-[100vh] w-full bg-gray-600 text-white">
+    <div className="h-fit w-full bg-gray-600 text-white">
       <div className="flex justify-between h-20 shadow-md px-4 items-center bg-gray-800">
-        <p className="font-semibold text-2xl">InDO Games</p>
+        <p className="font-semibold text-2xl">Card Picker</p>
         <p className="font-semibold text-2xl text-red-700">{message}</p>
         <div className="flex flex-col text-sm font-semibold">
           <p>Score: {score}</p>
-          <p>Best score: {/* You can add this later */}</p>
+          <p>Best score: {bestScore}</p>
         </div>
       </div>
 
@@ -92,6 +100,11 @@ const App = () => {
           ))}
         </div>
       </div>
+      <footer className="text-center text-gray-400 py-4 border-t border-gray-700 mt-6 text-sm">
+        © {new Date().getFullYear()}{" "}
+        <span className="text-white font-semibold"></span> — Built with 💙 by
+        Basit
+      </footer>
     </div>
   );
 };

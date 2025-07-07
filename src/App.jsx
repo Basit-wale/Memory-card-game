@@ -119,6 +119,9 @@ const App = () => {
           ))}
         </div>
       </div>
+      <footer className="flex justify-center items-center h-10 bg-gray-800 text-gray-300">
+        <p className="text-sm font-[calibri]">Built by Basit</p>
+      </footer>
     </div>
   );
 };
